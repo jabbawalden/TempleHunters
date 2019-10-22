@@ -45,7 +45,10 @@ class ATRGameMode : AGameModeBase
         // //example of changing tag
         // // PlayerStartArray[0].PlayerStartTag.ToString() = "Hello"; 
 
+        APlayerController PlayerController2 = Gameplay::CreatePlayer(1); 
+
         ATRMainCharacter::GetAll(MainCharacters);
+        PlayerController2.Possess(MainCharacters[1]); 
         Camera[0].SetCharacterReferences(); 
 
         for (int i = 0; i < MainCharacters.Num(); i++)
