@@ -2,7 +2,7 @@ class ATRSlamImpact : AActor
 {
     UPROPERTY(DefaultComponent, RootComponent)
     USphereComponent SphereComp;
-    default SphereComp.SetSphereRadius(300.f); 
+    default SphereComp.SetSphereRadius(100.f); 
     default SphereComp.SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 
     UPROPERTY(DefaultComponent, Attach = SphereComp)

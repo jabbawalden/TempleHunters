@@ -26,6 +26,8 @@ class ATREnvironmentPiece : AActor
     } 
 
     //Function that sets material back to normal
+    //TODO need to find a way to call this when trace no longer hits this target. 
+    //Currently dealt with through camera
     UFUNCTION()
     void SetDefaultMaterial()
     {

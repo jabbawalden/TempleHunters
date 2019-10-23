@@ -17,7 +17,11 @@ class ATRDoorOpen : AActor
     bool bActivated;
 
     float MovementSpeed = 10.f;
-    float EndZLoc = 400.f;
+
+    UPROPERTY()
+    float EndZLoc = 500.f;
+
+    float DistanceToEnd;
 
     UFUNCTION(BlueprintOverride)
     void BeginPlay()
@@ -35,6 +39,7 @@ class ATRDoorOpen : AActor
         }
     }
 
+    //assigned to pressure pad event
     UFUNCTION()
     void ActivateSequence()
     {
@@ -45,8 +50,15 @@ class ATRDoorOpen : AActor
     UFUNCTION()
     void MoveSequence()
     {
-        float DistanceToEnd = EndLocation.Z - GetActorLocation().Z;
-        Print("" + DistanceToEnd, 0.f);
+        //account for direction in negative and positive
+        if (EndZLoc < 0)
+        {
+            DistanceToEnd = GetActorLocation().Z - EndLocation.Z;
+        }
+        else if (EndZLoc > 0)
+        {
+            DistanceToEnd = EndLocation.Z - GetActorLocation().Z;
+        }
 
         if (DistanceToEnd >= 10.f)
         {

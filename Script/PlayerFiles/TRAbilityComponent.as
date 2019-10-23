@@ -1,6 +1,6 @@
 class UTRAbilityComponent : UActorComponent
 {
-    float DashSpeed = 35.f;
+    float DashSpeed = 1635.f;
     float NewDashTime;
     float DashRate = 0.37f;
     bool bIsDashing;
@@ -23,7 +23,7 @@ class UTRAbilityComponent : UActorComponent
     UFUNCTION()
     void PlayerJump()
     {
-        Print("Player Jump", 5.f);
+        //Print("Player Jump", 5.f);
         FVector JumpDirection = FVector(0,0,JumpForce);
         CharacterMovementRef.AddImpulse(JumpDirection);
     }
@@ -33,7 +33,7 @@ class UTRAbilityComponent : UActorComponent
     {
         if (bCanSlam) 
         {
-            Print("Player Slam", 5.f);
+            //Print("Player Slam", 5.f);
             FVector SlamDirection = FVector(0,0,-SlamForce);
             CharacterMovementRef.AddImpulse(SlamDirection);
             bIsSlamming = true;
@@ -43,7 +43,7 @@ class UTRAbilityComponent : UActorComponent
     UFUNCTION()
     void PlayerDashOn()
     {
-        Print("Player Dash On", 5.f);
+        //Print("Player Dash On", 5.f);
         bIsDashing = true;
         NewDashTime = Gameplay::GetTimeSeconds() + DashRate;
     }
@@ -51,7 +51,7 @@ class UTRAbilityComponent : UActorComponent
     UFUNCTION()
     void PlayerDashOff()
     {
-        Print("Player Dash Off", 5.f);
+        //Print("Player Dash Off", 5.f);
         bIsDashing = false;
     }
 
@@ -60,11 +60,11 @@ class UTRAbilityComponent : UActorComponent
     {
         FacingWallCheck();
 
-        Print("Slam Bool is: " + bCanSlam, 0.f);
+        //Print("Slam Bool is: " + bCanSlam, 0.f);
 
         if (bIsDashing && NewDashTime > Gameplay::GetTimeSeconds() && !bIsFacingWall)
         {
-            DashMove();
+            DashMove(DeltaSeconds);
         }
         else 
         {
@@ -73,10 +73,10 @@ class UTRAbilityComponent : UActorComponent
     }
 
     UFUNCTION()
-    void DashMove()
+    void DashMove(float DeltaSeconds)
     {
         FVector CurrentLocation = GetOwner().GetActorLocation();
-        FVector ForwardLocation = GetOwner().GetActorForwardVector() * DashSpeed;
+        FVector ForwardLocation = GetOwner().GetActorForwardVector() * DashSpeed * DeltaSeconds;
         FVector NewLocation = CurrentLocation + ForwardLocation;
         GetOwner().SetActorLocation(NewLocation);
     }
@@ -94,12 +94,12 @@ class UTRAbilityComponent : UActorComponent
         if (System::LineTraceSingle(StartLocation, EndLocation, ETraceTypeQuery::Visibility, true, IgnoredActors, EDrawDebugTrace::None, Hit, true))
         {
             bIsFacingWall = true;
-            Print("Facing Wall is: " + bIsFacingWall, 0.f);
+            //Print("Facing Wall is: " + bIsFacingWall, 0.f);
         }
         else
         {
             bIsFacingWall = false;
-            Print("Facing Wall is: " + bIsFacingWall, 0.f);
+            //Print("Facing Wall is: " + bIsFacingWall, 0.f);
         }
     }
 }

@@ -6,9 +6,6 @@ class ATRMainCharacter : ACharacter
     UPROPERTY(DefaultComponent)
     UStaticMeshComponent MeshCompDebug;
 
-    UPROPERTY(DefaultComponent, Attach = MeshCompDebug)
-    UStaticMeshComponent MeshIdentifier;
-
     UPROPERTY(DefaultComponent)
     UInputComponent InputComp;
 
@@ -39,7 +36,7 @@ class ATRMainCharacter : ACharacter
     float SlamTraceDistance = -275.f;
 
     UPROPERTY()
-    float DefaultMovementSensitivity = 0.7f;
+    float DefaultMovementSensitivity = 0.65f;
 
     float MovementSensitivity = DefaultMovementSensitivity;
 
@@ -163,38 +160,33 @@ class ATRMainCharacter : ACharacter
     UFUNCTION()
     void GroundCheck()
     {
-        /* We create this array in order to add Actors to be ignored */
 		TArray<AActor> IgnoredActors;
-        //use if component
-		// IgnoredActors.Add(GetOwner());
 		IgnoredActors.Add(this);
 
 		FVector StartLocation = ActorLocation;
 		FVector EndLocation = ActorLocation + (GetActorUpVector() * GroundTraceDistance);
 
-		/* We use this FHitResult to store our line tracing results */
+
 		FHitResult Hit;
 		if(System::LineTraceSingle(StartLocation, EndLocation, ETraceTypeQuery::Visibility, true, IgnoredActors, EDrawDebugTrace::None, Hit, true))
 		{
 			AActor HitActor = Hit.GetActor();
 
             bIsGrounded = true;
-            Print("Grounded = " + bIsGrounded, 0.0f);
+
 
             if (AbilityComp.bIsSlamming)
             {
                 SlamImpact = SpawnActor(SlamImpactClass, GetActorLocation() + FVector(0,0,-100.f)); 
-                Print("Slam completed", 5.f);
                 AbilityComp.bIsSlamming = false;
             }
 
-            //Debug to help you visualize the linetrace
+            //Debug to visualize linetrace
 			// System::DrawDebugLine(StartLocation, EndLocation, FLinearColor::Green, 5.0f, 2.0f);
 		}
         else 
         {
             bIsGrounded = false;
-            Print("Grounded = " + bIsGrounded, 0.0f);
         }
     }
 

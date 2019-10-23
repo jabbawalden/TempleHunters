@@ -18,7 +18,7 @@ class ATRCamera : AActor
     TArray<ATREnvironmentPiece> EnvPieces;
 
     UPROPERTY()
-    float InterpSpeed = 0.9f;
+    float InterpSpeed = 0.6f;
     
     UFUNCTION(BlueprintOverride)
     void BeginPlay()

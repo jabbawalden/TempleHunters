@@ -12,7 +12,13 @@ class ATRGameMode : AGameModeBase
 
     TArray<ATRCamera> Camera;
 
+    UPROPERTY()
     TArray<ATRMainCharacter> MainCharacters;
+
+    UPROPERTY()
+    TSubclassOf<AActor> Player1BP;
+    UPROPERTY()
+    TSubclassOf<AActor> Player2BP;
 
     UFUNCTION(BlueprintOverride)
     void BeginPlay()
@@ -31,24 +37,25 @@ class ATRGameMode : AGameModeBase
     UFUNCTION()
     void SetAndSpawnPlayers()
     {
-        // for (int i = 0; i < PlayerStartArray.Num(); i++)
-        // {
-        //     Gameplay::CreatePlayer(i); 
-        //     APlayerController PlayerController = Gameplay::GetPlayerController(i);
-        //     PlayerController.SetViewTargetWithBlend(Camera[0], 0.f);
-
-        //     if (PlayerStartArray[i].PlayerStartTag.ToString() != "" + SpawnIndexTag)
-        //     {
-        //         PlayerStartArray[i].PlayerStartTag.ToString() == "" + i;
-        //     }
-        // }
-        // //example of changing tag
-        // // PlayerStartArray[0].PlayerStartTag.ToString() = "Hello"; 
-
         APlayerController PlayerController2 = Gameplay::CreatePlayer(1); 
 
         ATRMainCharacter::GetAll(MainCharacters);
-        PlayerController2.Possess(MainCharacters[1]); 
+
+        for (int i = 0; i < MainCharacters.Num(); i++)
+        {
+            if (MainCharacters[i].Class == Player1BP)
+            {
+                APlayerController PlayerController1 = Gameplay::GetPlayerController(0); 
+                PlayerController1.Possess(MainCharacters[i]);
+                Print("Player 1 possessed", 5.f);
+            }
+            else if (MainCharacters[i].Class == Player2BP)
+            {
+                PlayerController2.Possess(MainCharacters[i]); 
+                Print("Player 2 possessed", 5.f);              
+            }
+        }
+
         Camera[0].SetCharacterReferences(); 
 
         for (int i = 0; i < MainCharacters.Num(); i++)
