@@ -1,3 +1,5 @@
+import PlayerFiles.TRMainCharacter;
+
 class ATRCheckPoints : AActor
 {
     UPROPERTY(DefaultComponent, RootComponent)
@@ -31,13 +33,25 @@ class ATRCheckPoints : AActor
         UPrimitiveComponent OtherComponent, int OtherBodyIndex, 
         bool bFromSweep, FHitResult& Hit) 
     {
+        if (OtherActor.Class == P1Class)
+        {
+            ATRMainCharacter MainCharacter = Cast<ATRMainCharacter>(OtherActor);
+            
+            if (MainCharacter != nullptr)
+            {
+                MainCharacter.SetDeathSpawnLocation(Player1SpawnLoc.GetWorldLocation());
+            }
+        }
+        else if (OtherActor.Class == P2Class)
+        {
+            ATRMainCharacter MainCharacter = Cast<ATRMainCharacter>(OtherActor);
+            
+            if (MainCharacter != nullptr)
+            {
+                MainCharacter.SetDeathSpawnLocation(Player2SpawnLoc.GetWorldLocation());
+            }
+        }
         //Check if player 1 or 2 then save accordingly
-    }
-
-    UFUNCTION()
-    void SavePoints(FVector SaveLocation)
-    {   
-        //save check point locations to player ondeath start locations
     }
 
 }

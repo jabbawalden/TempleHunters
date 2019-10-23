@@ -49,6 +49,7 @@ class ATRPlatformOutward : AActor
     void PushOutSequence()
     {
         bActivated = true;
+        bReturning = false;
     }
 
     UFUNCTION()

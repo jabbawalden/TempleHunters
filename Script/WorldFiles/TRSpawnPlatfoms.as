@@ -15,7 +15,7 @@ class ATRSpawnPlatforms : AActor
     float NewTime;
 
     UPROPERTY()
-    float SpawnRate = 8.5f;
+    float SpawnRate = 7.5f;
 
     UPROPERTY()
     TArray<AActor> Locations;

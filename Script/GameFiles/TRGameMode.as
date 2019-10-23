@@ -65,7 +65,6 @@ class ATRGameMode : AGameModeBase
             {
                 PlayerController.SetViewTargetWithBlend(Camera[0], 0.f);
             }
-
         }
 
     }

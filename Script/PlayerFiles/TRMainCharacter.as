@@ -50,9 +50,12 @@ class ATRMainCharacter : ACharacter
     UPROPERTY()
     int PlayerIndex;
 
+    FVector OnDeathSpawnLocation;
+
     UFUNCTION(BlueprintOverride)
     void BeginPlay()
     {
+        OnDeathSpawnLocation = ActorLocation; 
         //Get all characters
         ATRMainCharacter::GetAll(OtherPlayer);
         
@@ -208,5 +211,17 @@ class ATRMainCharacter : ACharacter
         {
             AbilityComp.bCanSlam = true;
         }
+    }
+
+    UFUNCTION()
+    void SetDeathSpawnLocation(FVector NewSpawnLoc)
+    {
+        OnDeathSpawnLocation = NewSpawnLoc; 
+    }
+
+    UFUNCTION()
+    void ResetPlayer()
+    {
+        SetActorLocation(OnDeathSpawnLocation); 
     }
 }

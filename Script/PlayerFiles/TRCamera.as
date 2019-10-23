@@ -8,7 +8,7 @@ class ATRCamera : AActor
 
     UPROPERTY(DefaultComponent, Attach = SceneComp)
     USpringArmComponent SpringArm;
-    default SpringArm.TargetArmLength = 500.f;
+    default SpringArm.TargetArmLength = 600.f;
 
     UPROPERTY(DefaultComponent, Attach = SpringArm)
     UCameraComponent Camera;
@@ -18,7 +18,7 @@ class ATRCamera : AActor
     TArray<ATREnvironmentPiece> EnvPieces;
 
     UPROPERTY()
-    float InterpSpeed = 0.6f;
+    float InterpSpeed = 1.5f;
     
     UFUNCTION(BlueprintOverride)
     void BeginPlay()
@@ -45,13 +45,12 @@ class ATRCamera : AActor
         {
             Characters[i].SetCamRef(this); 
         }
-
     }
 
     UFUNCTION()
     void SetSpringArmLength(float DeltaSeconds)
     {
-        float CurrentLength = Characters[0].DistanceFromOther * 0.85f + 750.f; 
+        float CurrentLength = Characters[0].DistanceFromOther * 0.85f + 830.f; 
         float InterpLength = FMath::FInterpTo(SpringArm.TargetArmLength, CurrentLength, DeltaSeconds, InterpSpeed);
         SpringArm.TargetArmLength = InterpLength;
     }
@@ -59,12 +58,13 @@ class ATRCamera : AActor
     UFUNCTION()
     void SetCameraLocation(float DeltaSeconds)
     {
+        FVector ForwardToAdd = GetActorForwardVector() * 2.f; 
         FVector AddedLocs = Characters[0].GetActorLocation() + Characters[1].GetActorLocation();
         AddedLocs /= 2;
         float XLocInterp = FMath::FInterpTo(GetActorLocation().X, AddedLocs.X, DeltaSeconds, InterpSpeed);
         float YLocInterp = FMath::FInterpTo(GetActorLocation().Y, AddedLocs.Y, DeltaSeconds, InterpSpeed);
         float ZLocInterp = FMath::FInterpTo(GetActorLocation().Z, AddedLocs.Z, DeltaSeconds, InterpSpeed);
-        SetActorLocation(FVector(XLocInterp, YLocInterp, ZLocInterp)); 
+        SetActorLocation(FVector(XLocInterp, YLocInterp, ZLocInterp) + ForwardToAdd); 
     }
 
     UFUNCTION()
