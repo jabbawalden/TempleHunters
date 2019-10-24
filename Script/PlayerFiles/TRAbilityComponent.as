@@ -1,12 +1,12 @@
 class UTRAbilityComponent : UActorComponent
 {
-    float DashSpeed = 1635.f;
+    float DashSpeed = 1735.f;
     float NewDashTime;
-    float DashRate = 0.3f;
+    float DashRate = 0.35f;
     bool bIsDashing;
     bool bIsFacingWall;
 
-    float JumpForce = 125000.f;
+    float JumpForce = 123000.f;
     float SlamForce = 210000.f;
     bool bCanSlam;
     bool bIsSlamming;
