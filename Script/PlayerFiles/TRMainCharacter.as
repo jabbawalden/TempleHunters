@@ -96,8 +96,10 @@ class ATRMainCharacter : ACharacter
     {
         InputComp.BindAxis(n"MoveForward", FInputAxisHandlerDynamicSignature(this, n"MovePForward"));
         InputComp.BindAxis(n"RotateRight", FInputAxisHandlerDynamicSignature(this, n"MovePRight"));
-        InputComp.BindAction(n"SpecialAbility", EInputEvent::IE_Pressed, FInputActionHandlerDynamicSignature(this, n"OnSpecialAbility"));
-        InputComp.BindAction(n"SpecialAbility", EInputEvent::IE_Released, FInputActionHandlerDynamicSignature(this, n"OffSpecialAbility"));
+        InputComp.BindAction(n"Jump", EInputEvent::IE_Pressed, FInputActionHandlerDynamicSignature(this, n"OnJump"));
+        InputComp.BindAction(n"SpecialAbility", EInputEvent::IE_Pressed, FInputActionHandlerDynamicSignature(this, n"OnSlam"));
+        InputComp.BindAction(n"SpecialAbility", EInputEvent::IE_Pressed, FInputActionHandlerDynamicSignature(this, n"OnDash"));
+        InputComp.BindAction(n"SpecialAbility", EInputEvent::IE_Released, FInputActionHandlerDynamicSignature(this, n"OffDash"));
     }
 
 
@@ -114,24 +116,17 @@ class ATRMainCharacter : ACharacter
     }
 
     UFUNCTION()
-    void OnSpecialAbility(FKey Key)
+    void OnJump(FKey Key)
     {
-        //if player index 0 or 1, get a different function from the ability component
         if (PlayerIndex == 0)
         {
             if (bIsGrounded)
                 AbilityComp.PlayerJump();
         }
-        else 
-        {
-            AbilityComp.PlayerDashOn();
-            MovementSensitivity = 0;
-            CharacterMovement.GravityScale = 0.f; 
-        }
     }
 
     UFUNCTION()
-    void OffSpecialAbility(FKey Key)
+    void OnSlam(FKey Key)
     {
         if (PlayerIndex == 0)
         {
@@ -140,7 +135,24 @@ class ATRMainCharacter : ACharacter
                 AbilityComp.PlayerSlam();
             }
         }
-        else 
+    }
+
+    UFUNCTION()
+    void OnDash(FKey Key)
+    {
+        //if player index 0 or 1, get a different function from the ability component
+        if (PlayerIndex == 1)
+        {
+            AbilityComp.PlayerDashOn();
+            MovementSensitivity = 0;
+            CharacterMovement.GravityScale = 0.f; 
+        }
+    }
+
+    UFUNCTION()
+    void OffDash(FKey Key)
+    {
+        if (PlayerIndex == 1)
         {
             AbilityComp.PlayerDashOff();
             MovementSensitivity = DefaultMovementSensitivity;
