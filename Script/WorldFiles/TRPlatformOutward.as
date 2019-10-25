@@ -17,8 +17,11 @@ class ATRPlatformOutward : AActor
     UPROPERTY()
     ATRPressurePad PressurePadRef;
 
-    float OutSpeed = 10.f;
-    float InSpeed = 2.f;
+    UPROPERTY()
+    float OutSpeed = 8.f;
+    UPROPERTY()
+    float InSpeed = 1.5f;
+
     bool bActivated;
     bool bReturning;
 

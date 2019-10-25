@@ -1,4 +1,5 @@
 import PlayerFiles.TRMainCharacter;
+
 class ATRDeathTrigger : AActor
 {
     UPROPERTY(DefaultComponent, RootComponent)

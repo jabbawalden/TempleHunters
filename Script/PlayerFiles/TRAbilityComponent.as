@@ -2,14 +2,18 @@ class UTRAbilityComponent : UActorComponent
 {
     float DashSpeed = 1735.f;
     float NewDashTime;
-    float DashRate = 0.35f;
+    float DashRate = 0.38f;
+    float DashCoolDown = 0.2f;
+    float NextDashTime;
     bool bIsDashing;
+    bool bCanDash;
     bool bIsFacingWall;
 
     float JumpForce = 123000.f;
     float SlamForce = 210000.f;
     bool bCanSlam;
     bool bIsSlamming;
+    
 
     UPROPERTY()
     UCharacterMovementComponent CharacterMovementRef;
@@ -18,6 +22,7 @@ class UTRAbilityComponent : UActorComponent
     void BeginPlay()
     {
         CharacterMovementRef = UCharacterMovementComponent::Get(Owner);
+        bCanDash = true;
     }
 
     UFUNCTION()
@@ -44,8 +49,12 @@ class UTRAbilityComponent : UActorComponent
     void PlayerDashOn()
     {
         //Print("Player Dash On", 5.f);
-        bIsDashing = true;
-        NewDashTime = Gameplay::GetTimeSeconds() + DashRate;
+        if (bCanDash)
+        {
+            bIsDashing = true;
+            NewDashTime = Gameplay::GetTimeSeconds() + DashRate;
+        }
+
     }
 
     UFUNCTION()
@@ -53,6 +62,8 @@ class UTRAbilityComponent : UActorComponent
     {
         //Print("Player Dash Off", 5.f);
         bIsDashing = false;
+        bCanDash = false;
+        NextDashTime = Gameplay::GetTimeSeconds() + DashCoolDown;
     }
 
     UFUNCTION(BlueprintOverride)
@@ -69,6 +80,11 @@ class UTRAbilityComponent : UActorComponent
         else 
         {
             bIsDashing = false;
+        }
+
+        if (NextDashTime <= Gameplay::GetTimeSeconds())
+        {
+            bCanDash = true;
         }
     }
 
